@@ -19,7 +19,7 @@ export const DB = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS profile (
                 id SERIAL PRIMARY KEY,
-                user_id INT REFERENCES users(id) ON DELETE CASCADE,
+                user_id INT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
                 bio TEXT,
                 created_at TIMESTAMPTZ DEFAULT NOW()
             )
