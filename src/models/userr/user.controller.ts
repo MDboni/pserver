@@ -12,7 +12,7 @@ const createUser = async(req:Request, res:Response) => {
             {  
                 success: true,
                 message: "Data inserted successfully" ,
-                boni: result.rows[0]
+                user: result.rows[0]
             }
             
         )
@@ -32,7 +32,7 @@ const getAllUsers = async(req:Request, res:Response) => {
             res.status(200).json({
                 success: true,
                 message: "Data retrieved successfully",
-                boni: result.rows
+                user: result.rows
             })
       } catch (error:any) {
         res.status(500).json({ 
@@ -59,7 +59,7 @@ const getSingaleUser = async(req:Request, res:Response) => {
         res.status(200).json({
             success: true,
             message: "Data retrieved successfully",
-            boni: result.rows[0]
+            user: result.rows[0]
         })
     } catch (error:any) {
         res.status(500).json({
@@ -88,7 +88,7 @@ const updateUser = async(req:Request, res:Response) => {
         res.status(200).json({
             success: true,
             message: "Data updated successfully",
-            boni: result.rows[0]
+            user: result.rows[0]
         })
         
     } catch (error:any) {
@@ -116,7 +116,7 @@ const deleteUser = async(req:Request, res:Response) => {
         res.status(200).json({
             success: true,
             message: "Data deleted successfully",
-            boni: result.rows[0]
+            user: result.rows[0]
         })
     } catch (error:any) {
         res.status(500).json({
