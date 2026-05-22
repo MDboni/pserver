@@ -3,6 +3,7 @@ import { authService } from "./auth.service"
 
 const loginUser = async (req:Request, res:Response) => {
        try {
+        console.log("Login request received with body:", req.body); // Debugging log
            // Login logic here
         const result = await authService.loginIntoUserDb(req.body)
            

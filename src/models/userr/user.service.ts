@@ -1,36 +1,38 @@
 import { pool } from "../../db"
-import type { userInterface } from "./user.interface";
+import bcrypt from "bcrypt";
+import type { userInterface, userUpdateInterface } from "./user.interface";
 
 
 const createUser = async( payload:userInterface) => {
-    const { name, email } = payload
+    const { name, email, password } = payload
+    const hashedPassword = await bcrypt.hash(password, 10)
     const result = await pool.query(`
-            INSERT INTO boni (name, email) VALUES ($1, $2) RETURNING *
+            INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *
         `, 
-        [name, email]
+        [name, email, hashedPassword]
     )
     return result;
 }
 
 const getUser = async() => {
     const result= await pool.query(`
-            SELECT * FROM boni 
+            SELECT * FROM users 
             `)
     return result;
 }
 
 const getSingaleUser = async(id:string) => {
      const result = await pool.query(`
-            SELECT * FROM boni WHERE id = $1
+            SELECT * FROM users WHERE id = $1
         `, [id])
     return result;
 }
 
 
-const updateUser = async(id:string, payload:userInterface) => {
+const updateUser = async(id:string, payload:userUpdateInterface) => {
     const { name, email } = payload
     const result = await pool.query(`
-            UPDATE boni SET
+            UPDATE users SET
             name = COALESCE($1, name),
             email = COALESCE($2, email)
             WHERE id = $3 RETURNING *
@@ -40,7 +42,7 @@ const updateUser = async(id:string, payload:userInterface) => {
 
 const deleteUser = async(id:string) => {
     const result = await pool.query(`
-            DELETE FROM boni WHERE id = $1 RETURNING *
+            DELETE FROM users WHERE id = $1 RETURNING *
         `, [id])
     return result;
 }
